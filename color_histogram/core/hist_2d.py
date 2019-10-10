@@ -20,8 +20,10 @@ class Hist2D:
     #  @param alpha          low density clip.
     #  @param color_space    target color space. 'rgb' or 'Lab' or 'hsv'.
     #  @param channels       target color channels. [0, 1] with 'hsv' means (h, s) channels.
-    def __init__(self, image, num_bins=16, alpha=0.1, color_space='hsv', channels=[0, 1]):
+    def __init__(self, image, clip_low_density=False, num_bins=16, alpha=0.1, color_space='hsv', channels=[0, 1]):
         self._computeTargetPixels(image, color_space, channels)
+
+        self._clip_low_density = clip_low_density
         self._num_bins = num_bins
         self._alpha = alpha
         self._color_space = color_space
@@ -105,7 +107,8 @@ class Hist2D:
         self._clipLowDensity()
 
     def _clipLowDensity(self):
-        clipLowDensity(self._hist_bins, self._color_bins, self._alpha)
+        if self._clip_low_density:
+            clipLowDensity(self._hist_bins, self._color_bins, self._alpha)
 
     def _histPositive(self):
         return self._hist_bins > 0.0

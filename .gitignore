@@ -62,3 +62,8 @@ doxygen/*.bat
 color_histogram/datasets/*/*
 color_histogram/datasets/.cache/*
 color_histogram/.cache/*
+
+# 
+build
+color_histogram.egg-info
+dist

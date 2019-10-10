@@ -21,9 +21,10 @@ class Hist3D:
     #  @param alpha          low density clip.
     #  @param color_space    target color space. 'rgb' or 'Lab' or 'hsv'.
     def __init__(self, image,
-                 num_bins=16, alpha=0.1, color_space='rgb'):
+                 clip_low_density=False, num_bins=16, alpha=0.1, color_space='rgb'):
         self._computeTargetPixels(image, color_space)
 
+        self._clip_low_density = clip_low_density
         self._num_bins = num_bins
         self._alpha = alpha
         self._color_space = color_space
@@ -102,7 +103,8 @@ class Hist3D:
         self._clipLowDensity()
 
     def _clipLowDensity(self):
-        clipLowDensity(self._hist_bins, self._color_bins, self._alpha)
+        if self._clip_low_density:
+            clipLowDensity(self._hist_bins, self._color_bins, self._alpha)
 
     def _histPositive(self):
         return self._hist_bins > 0.0
